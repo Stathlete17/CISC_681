@@ -6,43 +6,41 @@ let clock = new THREE.Clock();
 
 
 function createScene() {
-	let pyramid = makePyramid(20,18,.4);
-	scene.add(pyramid);
-
+	let helix = makeHelix(49,2,Math.PI /4,0.5);
+	scene.add(helix);
+    let axes = new THREE.AxesHelper(10);
+    scene.add(axes);
+    let light = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
+    light.position.set(0, 0, 40);
+    let light2 = new THREE.PointLight(0xFFFFFF, 0.4, 1000 );
+    light2.position.set(20, 40, -20);
+    let ambientLight = new THREE.AmbientLight(0x111111);
+    scene.add(light);
+    scene.add(light2);
+    scene.add(ambientLight);
 }
 
-
-function makePyramid(tori,mjrRadius,mnrRadius){
-    let root = new THREE.Object3D();
-    let t = -5;
-    for (let i = tori-1; i < tori && i >=0; i--) {
-            let y = t;
-            let torus = makeTorus(mjrRadius,mnrRadius);
-            torus.position.set(0,t,0);
-            torus.rotateX(190);
-            root.add(torus);
-            t = t+.7;
-            mjrRadius = mjrRadius-1;
-            mnrRadius = mnrRadius+.5/mjrRadius;
-
-            if( i == 0){
-                let sphereColor = getRandomColor(.7,.2,.4)
-                let geometry = new THREE.SphereGeometry( mjrRadius );
-                let mat = new THREE.MeshBasicMaterial({ color: sphereColor});
-                let mesh = new THREE.Mesh(geometry, mat);
-                mesh.position.set(0,t+.5,0);
-                scene.add(mesh);
-	            }
-	        }
-    return root;
-}
-
-function makeTorus(mjrRadius,mnrRadius){
-    let geom = new THREE.TorusGeometry(mjrRadius, mnrRadius, 150, 20);
-    let innerColor = getRandomColor(.4, .7, .2);
-    let mat = new THREE.MeshBasicMaterial({color: innerColor});
+function makeHelix(n, radius, angle, dist){
+    let mat = new THREE.MeshLambertMaterial({color: 'blue'});
+    let geom = new THREE.SphereGeometry(1, 12, 12);
     let mesh = new THREE.Mesh(geom, mat);
-    return mesh;
+    let helix = createHelix(mesh, n, radius, angle, dist);
+
+    return helix;
+}
+
+function createHelix(object, n, radius, angle, dist) {
+   let group = new THREE.Object3D();
+
+   for (var i = 0; i < n; i++) {
+       let clone = object.clone();
+       x = radius * Math.cos(angle * i);
+       y = radius * Math.sin(angle * i);
+       z = dist * i;
+       clone.position.set(x,y,z);
+       group.add(clone);
+   }
+   return group;
 }
 
 

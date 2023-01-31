@@ -65,12 +65,6 @@ function retainMoselySnowflakeLight(x, y, z, len) {
 }
 
 
-function retainSMSnowflakeAlt(x, y, z, len) {
-    let val = Math.abs(x) + Math.abs(y) + Math.abs(z);
-    return (Math.abs(x) + Math.abs(y) + Math.abs(z)) == 2 * len;
-}
-
-
 
 var controls = new function() {
     this.nbrLevels = 1;
@@ -82,7 +76,7 @@ var controls = new function() {
 function initGui() {
     var gui = new dat.GUI();
     gui.add(controls, 'nbrLevels', 0, 4).step(1).onChange(update);
-//    gui.add(controls, 'opacity', 0.1, 1.0).step(0.1);
+   gui.add(controls, 'opacity', 0.1, 1.0).step(0.1);
     gui.addColor(controls, 'color');
     let objectTypes = ['Sierpinski Tetrahedron', 'Mosely Snowflake', 'Light Mosely Snowflake'];
     gui.add(controls, 'type', objectTypes).onChange(update);
