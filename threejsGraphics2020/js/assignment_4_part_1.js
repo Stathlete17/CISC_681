@@ -6,7 +6,7 @@ let box;
 
 
 function createScene() {
-    box = randomBoxes(nbrBoxes, 2, 25, 2, 80);
+    box = randomBoxes(100, 2, 25, 2, 80);
     let light = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
     light.position.set(0, 0, 40);
     let light2 = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
@@ -30,14 +30,14 @@ let matArgs = {color: getRandomColor().setHSL(Math.random(), (Math.random() * (0
 mat = new THREE.MeshLambertMaterial(matArgs);
 let y = getRandomInt(minHeight, maxHeight);
 let geometry = new THREE.BoxGeometry( (Math.random() * (maxSide - minSide) + minSide), y, (Math.random() * (maxSide - minSide) + minSide));
-let geom = new THREE.Mesh(geometry, mat);
+let thisBox = new THREE.Mesh(geometry, mat);
 
 	// position
 	let x = (Math.random()*(85 - -85) + -85);
 	let z = (Math.random()*(85 - -85) + -85);
-	geom.position.set(x,y-y/2, z) ;
+	thisBox.position.set(x,y-y/2, z) ;
 
-	root.add(geom);
+	root.add(thisBox);
 }
 
 return root;
@@ -55,20 +55,20 @@ function makeFloor() {
 
 
 
-var controls = new function() {
+let controls = new function() {
     this.nbrBoxes = 100;
 }
 
 function initGui() {
-    var gui = new dat.GUI();
+    let gui = new dat.GUI();
     gui.add(controls, 'nbrBoxes', 0, 200).step(10).onChange(update);
 
 }
 
 function init() {
-	var canvasWidth = window.innerWidth;
-	var canvasHeight = window.innerHeight;
-	var canvasRatio = canvasWidth / canvasHeight;
+	let canvasWidth = window.innerWidth;
+	let canvasHeight = window.innerHeight;
+	let canvasRatio = canvasWidth / canvasHeight;
 
 	scene = new THREE.Scene();
 
@@ -98,7 +98,7 @@ function update() {
 
 
 function render() {
-    var delta = clock.getDelta();
+    let delta = clock.getDelta();
     cameraControls.update(delta);
     mat.color = new THREE.Color(controls.color);
     mat.opacity = controls.opacity;
@@ -110,8 +110,8 @@ function render() {
 
 
 function addToDOM() {
-	var container = document.getElementById('container');
-	var canvas = container.getElementsByTagName('canvas');
+	let container = document.getElementById('container');
+	let canvas = container.getElementsByTagName('canvas');
 	if (canvas.length>0) {
 		container.removeChild(canvas[0]);
 	}
