@@ -18,7 +18,7 @@ function createScene() {
     scene.add(box);
 }
 
-function randomBoxes(nbrBoxes, minSide, maxSide, minHeight, maxHeight)
+function randomBoxes(nbrBoxes, minSide=5, maxSide=20, minHeight=5, maxHeight=60)
 {
 let root = new THREE.Object3D();
 let floor = makeFloor();
@@ -91,7 +91,7 @@ function init() {
 function update() {
 	let nbrBoxes = controls.nbrBoxes;
 	scene.remove(box);
-    box = randomBoxes(nbrBoxes, 5, 20, 5, 60);
+    box = randomBoxes(nbrBoxes);
     scene.add(box);
 }
 
