@@ -36,7 +36,7 @@ function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
         cyl = new THREE.Mesh(geom, mat);
         cyl.position.y = ypos;
         cyl.scale.set(sf, sf, sf);
-		cyl.rotateX(190);
+		cyl.rotateX(720);
         root.add(cyl);
         ypos = ypos;
         sf = sf+0.1;
@@ -60,14 +60,14 @@ function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
 function update() {
     let delta = clock.getDelta();
     let deltaRadians = rpsToRadians(root.rps, delta);
-    root.rotation.z += deltaRadians;
-    root.rotation.y %= 2 * Math.PI;
+    root.rotation.z += 4 * Math.PI;
+    root.rotation.y %= deltaRadians;
 
 	for (let i = 0; i <= 14; i++){
 	let delta2 = clock.getDelta();
     let deltaRadians2 = rpsToRadians(root.children[i].rps, delta2);
-    root.children[i].rotation.x += deltaRadians2;
-    root.children[i].rotation.z %= 2 * Math.PI;
+    root.children[i].rotation.x += 2 * Math.PI;
+    root.children[i].rotation.z %= deltaRadians2;
 
 	root.position.y = root.position.y-.2;
 	root.position.y = root.position.y+.2;
