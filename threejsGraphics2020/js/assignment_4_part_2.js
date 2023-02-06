@@ -6,7 +6,7 @@ let cyl ;
 
 
 function createScene() {
-    ring = makeRing(10,2.5,14, 5);
+    ring = makeRing(20,5,25, 5);
 	let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
 	light.position.set(0, 0, 10);
     let ambientLight = new THREE.AmbientLight(0x222222);
@@ -17,21 +17,17 @@ function createScene() {
 }
 
 
-function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
+function makeRing(majorRad,minorRad,nbrToruses,cherry) {
     let ypos = cherry ;
     let sf = .01;
-    if (!materials) mats = [];
     root = new THREE.Object3D();
     for (let i = 0; i <= nbrToruses; i++) {
         let geom = new THREE.TorusGeometry(majorRad, minorRad/i*2,  150, 20);
         let mat;
-        if (!materials) {
-            let matArgs = { color: getRandomColor()};
-            mat = new THREE.MeshLambertMaterial(matArgs);
-            mats.push(mat);
-        } else {
-            mat = mats[i];
-        }
+        let matArgs = { color: getRandomColor()};
+        mat = new THREE.MeshLambertMaterial(matArgs);
+        mats.push(mat);
+
 
         cyl = new THREE.Mesh(geom, mat);
         cyl.position.y = ypos;
