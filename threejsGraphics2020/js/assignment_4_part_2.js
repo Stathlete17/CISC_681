@@ -12,7 +12,7 @@ function createScene() {
     let ambientLight = new THREE.AmbientLight(0x222222);
 	scene.add(light);
 	scene.add(ambientLight);
-	scene.add(pyramid);
+	scene.add(ring);
 
 }
 
