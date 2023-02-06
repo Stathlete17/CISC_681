@@ -6,13 +6,13 @@ let cyl ;
 
 
 function createScene() {
-    pyramid = makeRing(20,2.5,14, 5);
+    ring = makeRing(10,2.5,14, 5);
 	let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
 	light.position.set(0, 0, 10);
     let ambientLight = new THREE.AmbientLight(0x222222);
 	scene.add(light);
 	scene.add(ambientLight);
-	scene.add(pyramid);    
+	scene.add(ring);
 
 }
 
@@ -32,17 +32,17 @@ function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
         } else {
             mat = mats[i];
         }
-		
-        cycle = new THREE.Mesh(geom, mat);
-        cycle.position.y = ypos;
-        cycle.scale.set(sf, sf, sf);
-		cycle.rotateX(110);
-        root.add(cycle);
+
+        cyl = new THREE.Mesh(geom, mat);
+        cyl.position.y = ypos;
+        cyl.scale.set(sf, sf, sf);
+		cyl.rotateX(190);
+        root.add(cyl);
         ypos = ypos;
         sf = sf+0.1;
-		root.rps = .6;
-		cycle.rps = 50;
-		
+		root.rps = .06;
+		cyl.rps = 50;
+
 		if(i==nbrToruses){
 		let geometry = new THREE.SphereGeometry( minorRad*2/i*1.5 );
 		let gem = new THREE.Mesh(geometry, mat);
@@ -50,8 +50,8 @@ function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
 		root.add(gem);
 		}
     }
-	
-   
+
+
 	 return root;
 
 }
@@ -62,7 +62,7 @@ function update() {
     let deltaRadians = rpsToRadians(root.rps, delta);
     root.rotation.z += deltaRadians;
     root.rotation.y %= 2 * Math.PI;
-		 
+
 	for (let i = 0; i <= 14; i++){
 	let delta2 = clock.getDelta();
     let deltaRadians2 = rpsToRadians(root.children[i].rps, delta2);
@@ -117,5 +117,4 @@ function addToDOM() {
 init();
 createScene();
 addToDOM();
-
 
