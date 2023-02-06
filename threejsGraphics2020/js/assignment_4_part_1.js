@@ -6,7 +6,7 @@ let box;
 
 
 function createScene() {
-    box = randomBoxes(100, 2, 25, 2, 80);
+    box = randomBoxes(nbrBoxes, 2, 25, 2, 80);
     let light = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
     light.position.set(0, 0, 40);
     let light2 = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
