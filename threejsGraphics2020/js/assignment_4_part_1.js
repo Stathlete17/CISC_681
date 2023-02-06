@@ -6,7 +6,7 @@ let box;
 
 
 function createScene() {
-    box = randomBoxes(100, 2, 25, 2, 80);
+    box = randomBoxes(nbrBoxes, 2, 25, 2, 80);
     let light = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
     light.position.set(0, 0, 40);
     let light2 = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
@@ -30,14 +30,14 @@ let matArgs = {color: getRandomColor().setHSL(Math.random(), (Math.random() * (0
 mat = new THREE.MeshLambertMaterial(matArgs);
 let y = getRandomInt(minHeight, maxHeight);
 let geometry = new THREE.BoxGeometry( (Math.random() * (maxSide - minSide) + minSide), y, (Math.random() * (maxSide - minSide) + minSide));
-let thisBox = new THREE.Mesh(geometry, mat);
+let geom = new THREE.Mesh(geometry, mat);
 
 	// position
 	let x = (Math.random()*(85 - -85) + -85);
 	let z = (Math.random()*(85 - -85) + -85);
-	thisBox.position.set(x,y-y/2, z) ;
+	geom.position.set(x,y-y/2, z) ;
 
-	root.add(thisBox);
+	root.add(geom);
 }
 
 return root;
@@ -55,20 +55,20 @@ function makeFloor() {
 
 
 
-let controls = new function() {
+var controls = new function() {
     this.nbrBoxes = 100;
 }
 
 function initGui() {
-    let gui = new dat.GUI();
+    var gui = new dat.GUI();
     gui.add(controls, 'nbrBoxes', 0, 200).step(10).onChange(update);
 
 }
 
 function init() {
-	let canvasWidth = window.innerWidth;
-	let canvasHeight = window.innerHeight;
-	let canvasRatio = canvasWidth / canvasHeight;
+	var canvasWidth = window.innerWidth;
+	var canvasHeight = window.innerHeight;
+	var canvasRatio = canvasWidth / canvasHeight;
 
 	scene = new THREE.Scene();
 
@@ -91,14 +91,14 @@ function init() {
 function update() {
 	let nbrBoxes = controls.nbrBoxes;
 	scene.remove(box);
-    box = randomBoxes(nbrBoxes);
+    box = randomBoxes(nbrBoxes, 2, 25, 2, 80);
     scene.add(box);
 }
 
 
 
 function render() {
-    let delta = clock.getDelta();
+    var delta = clock.getDelta();
     cameraControls.update(delta);
     mat.color = new THREE.Color(controls.color);
     mat.opacity = controls.opacity;
@@ -110,8 +110,8 @@ function render() {
 
 
 function addToDOM() {
-	let container = document.getElementById('container');
-	let canvas = container.getElementsByTagName('canvas');
+	var container = document.getElementById('container');
+	var canvas = container.getElementsByTagName('canvas');
 	if (canvas.length>0) {
 		container.removeChild(canvas[0]);
 	}
@@ -124,4 +124,3 @@ init();
 createScene();
 initGui();
 addToDOM();
-
