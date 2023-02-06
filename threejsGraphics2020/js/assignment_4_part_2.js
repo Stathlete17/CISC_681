@@ -6,28 +6,32 @@ let cyl ;
 
 
 function createScene() {
-    ring = makeRing(20,5,25, 5);
+    ring = makeRing(20,4.5,50, 2);
 	let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
 	light.position.set(0, 0, 10);
     let ambientLight = new THREE.AmbientLight(0x222222);
 	scene.add(light);
 	scene.add(ambientLight);
-	scene.add(ring);
+	scene.add(pyramid);
 
 }
 
 
-function makeRing(majorRad,minorRad,nbrToruses,cherry) {
+function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
     let ypos = cherry ;
     let sf = .01;
+    if (!materials) mats = [];
     root = new THREE.Object3D();
     for (let i = 0; i <= nbrToruses; i++) {
         let geom = new THREE.TorusGeometry(majorRad, minorRad/i*2,  150, 20);
         let mat;
-        let matArgs = { color: getRandomColor()};
-        mat = new THREE.MeshLambertMaterial(matArgs);
-        mats.push(mat);
-
+        if (!materials) {
+            let matArgs = { color: getRandomColor()};
+            mat = new THREE.MeshLambertMaterial(matArgs);
+            mats.push(mat);
+        } else {
+            mat = mats[i];
+        }
 
         cyl = new THREE.Mesh(geom, mat);
         cyl.position.y = ypos;
@@ -36,8 +40,8 @@ function makeRing(majorRad,minorRad,nbrToruses,cherry) {
         root.add(cyl);
         ypos = ypos;
         sf = sf+0.1;
-		root.rps = .06;
-		cyl.rps = 50;
+		root.rps = .5;
+		cyl.rps = 80;
 
 		if(i==nbrToruses){
 		let geometry = new THREE.SphereGeometry( minorRad*2/i*1.5 );
@@ -56,13 +60,13 @@ function makeRing(majorRad,minorRad,nbrToruses,cherry) {
 function update() {
     let delta = clock.getDelta();
     let deltaRadians = rpsToRadians(root.rps, delta);
-    root.rotation.z += 4 * Math.PI;
+    root.rotation.z += ;
     root.rotation.y %= deltaRadians;
 
 	for (let i = 0; i <= 14; i++){
 	let delta2 = clock.getDelta();
     let deltaRadians2 = rpsToRadians(root.children[i].rps, delta2);
-    root.children[i].rotation.x += 2 * Math.PI;
+    root.children[i].rotation.x += 4 * Math.PI;
     root.children[i].rotation.z %= deltaRadians2;
 
 	root.position.y = root.position.y-.2;
