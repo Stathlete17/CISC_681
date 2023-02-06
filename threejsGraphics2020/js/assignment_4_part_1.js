@@ -6,7 +6,7 @@ let box;
 
 
 function createScene() {
-    box = randomBoxes(100, 5, 20, 5, 60);
+    box = getBoxes(100, 5, 20, 5, 60);
     let light = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
     light.position.set(0, 0, 40);
     let light2 = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
@@ -18,7 +18,7 @@ function createScene() {
     scene.add(box);
 }
 
-function randomBoxes(nbrBoxes, minSide=5, maxSide=20, minHeight=5, maxHeight=60)
+function getBoxes(nbrBoxes, minSide=2, maxSide=40, minHeight=2, maxHeight=100)
 {
 let root = new THREE.Object3D();
 let floor = makeFloor();
@@ -26,18 +26,17 @@ root.add(floor);
 
 
 for (let i = 0; i < nbrBoxes; i++) {
-let matArgs = {color: getRandomColor().setHSL(Math.random(), (Math.random() * (0.95 - 0.8) + 0.8),  (Math.random() * (0.7 - 0.3) + 0.3) ) , transparent: true, opacity: 0.8};
+let matArgs = {color: getRandomColor().setHSL(Math.random(), (Math.random() * (0.85 - 0.81) + 0.81),  (Math.random() * (0.55 - 0.35) + 0.35) ) , transparent: true, opacity: 0.75};
 mat = new THREE.MeshLambertMaterial(matArgs);
 let y = getRandomInt(minHeight, maxHeight);
 let geometry = new THREE.BoxGeometry( (Math.random() * (maxSide - minSide) + minSide), y, (Math.random() * (maxSide - minSide) + minSide));
 let gem = new THREE.Mesh(geometry, mat);
 
-	// position
-	let x = (Math.random()*(85 - -85) + -85);
-	let z = (Math.random()*(85 - -85) + -85);
-	gem.position.set(x,y-y/2, z) ;
+let x = (Math.random()*(85 - -85) + -85);
+let z = (Math.random()*(85 - -85) + -85);
+gem.position.set(x,y-y/2, z) ;
 
-	root.add(gem);
+root.add(gem);
 }
 
 return root;
@@ -46,10 +45,12 @@ return root;
 
 function makeFloor() {
     let color = new THREE.Color(0x333333);
-    let matArgs = {color: color, transparent: true, opacity: 0.8};
+    let matArgs = {color: color, transparent: true, opacity: 0.95};
     let mat = new THREE.MeshBasicMaterial(matArgs);
     let geom = new THREE.BoxGeometry(200, 0, 200);
     let floor = new THREE.Mesh(geom, mat);
+
+
     return floor;
 }
 
@@ -61,7 +62,7 @@ var controls = new function() {
 
 function initGui() {
     var gui = new dat.GUI();
-    gui.add(controls, 'nbrBoxes', 0, 200).step(10).onChange(update);
+    gui.add(controls, 'nbrBoxes', 0, 200).step(5).onChange(update);
 
 }
 
@@ -91,7 +92,7 @@ function init() {
 function update() {
 	let nbrBoxes = controls.nbrBoxes;
 	scene.remove(box);
-    box = randomBoxes(nbrBoxes);
+    box = getBoxes(nbrBoxes);
     scene.add(box);
 }
 

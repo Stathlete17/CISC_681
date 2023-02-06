@@ -17,13 +17,13 @@ function createScene() {
 }
 
 
-function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
+function makeRing(majorRadius,minorRadius,nbrTori,cherry,materials) {
     let ypos = cherry ;
     let sf = .01;
     if (!materials) mats = [];
     root = new THREE.Object3D();
-    for (let i = 0; i <= nbrToruses; i++) {
-        let geom = new THREE.TorusGeometry(majorRad, minorRad/i*2,  150, 20);
+    for (let i = 0; i <= nbrTori; i++) {
+        let geom = new THREE.TorusGeometry(majorRadius, minorRadius/i*2,  150, 20);
         let mat;
         if (!materials) {
             let matArgs = { color: getRandomColor()};
@@ -44,7 +44,7 @@ function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
 		cyl.rps = 80;
 
 		if(i==nbrToruses){
-		let geometry = new THREE.SphereGeometry( minorRad*2/i*1.5 );
+		let geometry = new THREE.SphereGeometry( minorRadius*2/i*1.5 );
 		let gem = new THREE.Mesh(geometry, mat);
 		gem.position.y = cherry;
 		root.add(gem);
