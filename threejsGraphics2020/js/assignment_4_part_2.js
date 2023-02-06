@@ -1,12 +1,12 @@
 let camera, scene, renderer;
 let cameraControls;
 let clock = new THREE.Clock();
-let pyramid;
+let ring;
 let cyl ;
 
 
 function createScene() {
-    ring = makeRing(20,4.5,50, 2);
+    ring = makeRing(10,2.5,55, 5);
 	let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
 	light.position.set(0, 0, 10);
     let ambientLight = new THREE.AmbientLight(0x222222);
@@ -17,13 +17,13 @@ function createScene() {
 }
 
 
-function makeRing(majorRadius,minorRadius,nbrTori,cherry,materials) {
+function makeRing(majorRad,minorRad,nbrToruses,cherry,materials) {
     let ypos = cherry ;
     let sf = .01;
     if (!materials) mats = [];
     root = new THREE.Object3D();
-    for (let i = 0; i <= nbrTori; i++) {
-        let geom = new THREE.TorusGeometry(majorRadius, minorRadius/i*2,  150, 20);
+    for (let i = 0; i <= nbrToruses; i++) {
+        let geom = new THREE.TorusGeometry(majorRad, minorRad/i*2,  150, 20);
         let mat;
         if (!materials) {
             let matArgs = { color: getRandomColor()};
@@ -40,11 +40,11 @@ function makeRing(majorRadius,minorRadius,nbrTori,cherry,materials) {
         root.add(cyl);
         ypos = ypos;
         sf = sf+0.1;
-		root.rps = .5;
-		cyl.rps = 80;
+		root.rps = .06;
+		cyl.rps = 50;
 
 		if(i==nbrToruses){
-		let geometry = new THREE.SphereGeometry( minorRadius*2/i*1.5 );
+		let geometry = new THREE.SphereGeometry( minorRad*2/i*1.5 );
 		let gem = new THREE.Mesh(geometry, mat);
 		gem.position.y = cherry;
 		root.add(gem);
@@ -60,14 +60,14 @@ function makeRing(majorRadius,minorRadius,nbrTori,cherry,materials) {
 function update() {
     let delta = clock.getDelta();
     let deltaRadians = rpsToRadians(root.rps, delta);
-    root.rotation.z += ;
-    root.rotation.y %= deltaRadians;
+    root.rotation.z += deltaRadians;
+    root.rotation.y %= 2 * Math.PI;
 
 	for (let i = 0; i <= 14; i++){
 	let delta2 = clock.getDelta();
     let deltaRadians2 = rpsToRadians(root.children[i].rps, delta2);
-    root.children[i].rotation.x += 4 * Math.PI;
-    root.children[i].rotation.z %= deltaRadians2;
+    root.children[i].rotation.x += deltaRadians2;
+    root.children[i].rotation.z %= 2 * Math.PI;
 
 	root.position.y = root.position.y-.2;
 	root.position.y = root.position.y+.2;
@@ -117,4 +117,3 @@ function addToDOM() {
 init();
 createScene();
 addToDOM();
-
