@@ -6,7 +6,7 @@ let box;
 
 
 function createScene() {
-    box = randomBoxes(100, 2, 25, 2, 80);
+    box = randomBoxes(100, 5, 20, 5, 60);
     let light = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
     light.position.set(0, 0, 40);
     let light2 = new THREE.PointLight(0xFFFFFF, 1.0, 1000 );
@@ -26,18 +26,18 @@ root.add(floor);
 
 
 for (let i = 0; i < nbrBoxes; i++) {
-let matArgs = {color: getRandomColor().setHSL(Math.random(), (Math.random() * (0.92 - 0.8) + 0.8),  (Math.random() * (0.6 - 0.3) + 0.3) ) , transparent: true, opacity: 0.7};
+let matArgs = {color: getRandomColor().setHSL(Math.random(), (Math.random() * (0.95 - 0.8) + 0.8),  (Math.random() * (0.7 - 0.3) + 0.3) ) , transparent: true, opacity: 0.8};
 mat = new THREE.MeshLambertMaterial(matArgs);
 let y = getRandomInt(minHeight, maxHeight);
 let geometry = new THREE.BoxGeometry( (Math.random() * (maxSide - minSide) + minSide), y, (Math.random() * (maxSide - minSide) + minSide));
-let geom = new THREE.Mesh(geometry, mat);
+let gem = new THREE.Mesh(geometry, mat);
 
 	// position
 	let x = (Math.random()*(85 - -85) + -85);
 	let z = (Math.random()*(85 - -85) + -85);
-	geom.position.set(x,y-y/2, z) ;
+	gem.position.set(x,y-y/2, z) ;
 
-	root.add(geom);
+	root.add(gem);
 }
 
 return root;
@@ -46,7 +46,7 @@ return root;
 
 function makeFloor() {
     let color = new THREE.Color(0x333333);
-    let matArgs = {color: color, transparent: true, opacity: 0.9};
+    let matArgs = {color: color, transparent: true, opacity: 0.8};
     let mat = new THREE.MeshBasicMaterial(matArgs);
     let geom = new THREE.BoxGeometry(200, 0, 200);
     let floor = new THREE.Mesh(geom, mat);
@@ -91,7 +91,7 @@ function init() {
 function update() {
 	let nbrBoxes = controls.nbrBoxes;
 	scene.remove(box);
-    box = randomBoxes(nbrBoxes, 2, 25, 2, 80);
+    box = randomBoxes(nbrBoxes, 5, 20, 5, 60);
     scene.add(box);
 }
 
